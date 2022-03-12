@@ -3,10 +3,9 @@
 
 #include "Characters/EnemyCharacter.h"
 
-#include "NavigationSystem.h"
-#include "AI/Navigation/NavigationTypes.h"
 #include "AI/AIControllerBase.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Perception/AISenseConfig.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -34,6 +33,7 @@ AEnemyCharacter::AEnemyCharacter()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	AIController = Cast<AAIControllerBase>(GetController());
 }
 
 void AEnemyCharacter::PostInitializeComponents()
@@ -45,10 +45,10 @@ void AEnemyCharacter::PostInitializeComponents()
 void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	PerceivedActor = Actor;
-	AAIControllerBase* AIController = Cast<AAIControllerBase>(GetController());
 	if (AIController)
 	{
-		if (Stimulus.WasSuccessfullySensed())
+		bIsActorPerceived = Stimulus.WasSuccessfullySensed();
+		if (Stimulus.WasSuccessfullySensed() && Actor->ActorHasTag("Player"))
 		{
 			GetWorld()->GetTimerManager().ClearTimer(TargetLostHandle);
 			AIController->UpdateHasLineOfSightKey(true);
@@ -56,8 +56,9 @@ void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 		}
 		else
 		{
-			GetWorld()->GetTimerManager().SetTimer(TargetLostHandle, this, &AEnemyCharacter::TargetLost, 5.f, false);
-			AIController->UpdateHasLineOfSightKey(false);
+			GetWorld()->GetTimerManager().SetTimer(TargetLostHandle, this, &AEnemyCharacter::TargetLost,
+			                                       LineOfSightTimer, false);
+			AIController->UpdateLastSeenActorPosition(Stimulus.StimulusLocation);
 		}
 	}
 	else
@@ -69,9 +70,9 @@ void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 void AEnemyCharacter::TargetLost()
 {
 	PerceivedActor = nullptr;
-	AAIControllerBase* AIController = Cast<AAIControllerBase>(GetController());
 	if (AIController)
 	{
+		AIController->UpdateHasLineOfSightKey(false);
 		AIController->UpdateTargetActorKey(nullptr);
 	}
 	else
@@ -80,24 +81,6 @@ void AEnemyCharacter::TargetLost()
 	}
 }
 
-void AEnemyCharacter::RandomWander()
-{
-	if (!GetController()) return;
-
-	FNavLocation LocationReached;
-	UNavigationSystemV1* NavigationSystem = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem());
-	if(NavigationSystem)
-	{
-		NavigationSystem->GetRandomReachablePointInRadius(GetActorLocation(), 1000.f, LocationReached);
-		FVector NewTargetPosition = LocationReached.Location;
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), NewTargetPosition);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't get Navigation System V1"))
-	}
-	
-}
 
 // Called every frame
 void AEnemyCharacter::Tick(float DeltaTime)
@@ -105,3 +88,23 @@ void AEnemyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AEnemyCharacter::UpdateMovementSpeed(float NewSpeed)
+{
+	if (GetCharacterMovement())
+	{
+		GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
+	}
+}
+
+void AEnemyCharacter::ResetMovementSpeed()
+{
+	if (GetCharacterMovement())
+	{
+		GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
+	}
+}
+
+AActor* AEnemyCharacter::GetPerceivedActor()
+{
+	return PerceivedActor;
+}

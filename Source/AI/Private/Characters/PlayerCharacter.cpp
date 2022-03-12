@@ -36,6 +36,7 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, RotationRate, 0.f);
 	GetCharacterMovement()->JumpZVelocity = JumpVelocity;
 	GetCharacterMovement()->AirControl = AirControl;
+	Tags.Add("Player");
 }
 
 // Called when the game starts or when spawned

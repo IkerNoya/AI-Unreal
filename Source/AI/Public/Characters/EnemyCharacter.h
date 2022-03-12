@@ -15,17 +15,23 @@ class AI_API AEnemyCharacter : public ACharacter
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UAIPerceptionComponent* AIPerception;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	UAISenseConfig_Sight* SightConfig;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MovementSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float LineOfSightTimer = 5.f;
 private:
 	UPROPERTY()
 	AActor* PerceivedActor;
 	UPROPERTY()
 	FTimerHandle TargetLostHandle;
-
+	UPROPERTY()
+	class AAIControllerBase* AIController = nullptr;
+	bool bIsActorPerceived=false;
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
@@ -41,13 +47,16 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	void TargetLost();
-
-	UFUNCTION(BlueprintCallable, Category = "AI")
-	void RandomWander();
 	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void UpdateMovementSpeed(float NewSpeed);
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void ResetMovementSpeed();
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	AActor* GetPerceivedActor();
 
 };
