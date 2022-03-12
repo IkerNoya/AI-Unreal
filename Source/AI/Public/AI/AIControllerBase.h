@@ -18,4 +18,18 @@ class AI_API AAIControllerBase : public AAIController
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AI")
+	UBehaviorTree* BehaviorTree;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName TargetActorName = "TargetActor";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName HasLineOfSightName = "HasLineOfSight";
+
+	virtual void OnPossess(APawn* InPawn) override;
+public:
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void UpdateTargetActorKey(AActor* TargetActor);
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void UpdateHasLineOfSightKey(bool HasLineOfSight);
 };

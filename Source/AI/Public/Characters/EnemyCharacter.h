@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionComponent.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "EnemyCharacter.generated.h"
 
@@ -18,6 +19,12 @@ protected:
 	UAIPerceptionComponent* AIPerception;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	UAISenseConfig_Sight* SightConfig;
+	
+private:
+	UPROPERTY()
+	AActor* PerceivedActor;
+	UPROPERTY()
+	FTimerHandle TargetLostHandle;
 
 public:
 	// Sets default values for this character's properties
@@ -27,11 +34,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void PostInitializeComponents() override;
+
+	UFUNCTION()
+	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void TargetLost();
+
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void RandomWander();
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
