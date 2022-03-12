@@ -14,7 +14,6 @@ EBTNodeResult::Type UBTTFindNextPatrolLocation::ExecuteTask(UBehaviorTreeCompone
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 	if(EnemyCharacter && Blackboard)
 	{
-		EnemyCharacter->UpdateMovementSpeed(125.f);
 		FNavLocation LocationReached;
 		UNavigationSystemV1* NavigationSystem = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem());
 		if(NavigationSystem)

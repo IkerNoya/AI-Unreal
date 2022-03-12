@@ -15,8 +15,6 @@ class AI_API UBTTFindNextPatrolLocation : public UBTTaskNode
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	float PatrolSpeed = 300.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	float PatrolRadius = 1000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FBlackboardKeySelector PatrolLocation;

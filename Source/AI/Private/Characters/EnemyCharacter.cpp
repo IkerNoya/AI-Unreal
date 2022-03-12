@@ -45,10 +45,10 @@ void AEnemyCharacter::PostInitializeComponents()
 void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	PerceivedActor = Actor;
-	if (AIController)
+	if (AIController && Actor->ActorHasTag("Player"))
 	{
 		bIsActorPerceived = Stimulus.WasSuccessfullySensed();
-		if (Stimulus.WasSuccessfullySensed() && Actor->ActorHasTag("Player"))
+		if (Stimulus.WasSuccessfullySensed())
 		{
 			GetWorld()->GetTimerManager().ClearTimer(TargetLostHandle);
 			AIController->UpdateHasLineOfSightKey(true);
@@ -56,14 +56,9 @@ void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 		}
 		else
 		{
-			GetWorld()->GetTimerManager().SetTimer(TargetLostHandle, this, &AEnemyCharacter::TargetLost,
-			                                       LineOfSightTimer, false);
-			AIController->UpdateLastSeenActorPosition(Stimulus.StimulusLocation);
+			GetWorld()->GetTimerManager().SetTimer(TargetLostHandle, this, &AEnemyCharacter::TargetLost, LineOfSightTimer, false);
+			AIController->UpdateLastSeenActorPosition(Actor->GetActorLocation());
 		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't cast to AAIControllerBase from %s"), *GetName())
 	}
 }
 
@@ -74,10 +69,6 @@ void AEnemyCharacter::TargetLost()
 	{
 		AIController->UpdateHasLineOfSightKey(false);
 		AIController->UpdateTargetActorKey(nullptr);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't cast to AAIControllerBase from %s"), *GetName())
 	}
 }
 

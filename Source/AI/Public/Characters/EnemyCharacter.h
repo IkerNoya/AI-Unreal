@@ -45,12 +45,14 @@ protected:
 	UFUNCTION()
 	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
-	UFUNCTION(BlueprintCallable, Category = "AI")
-	void TargetLost();
+	
 	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void TargetLost();
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void UpdateMovementSpeed(float NewSpeed);
