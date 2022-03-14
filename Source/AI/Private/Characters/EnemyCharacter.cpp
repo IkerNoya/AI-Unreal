@@ -40,7 +40,7 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	AIController = Cast<AAIControllerBase>(GetController());
-	USightDetectionUI* Widget = Cast<USightDetectionUI>(DetectionWidget->GetUserWidgetObject());
+	USightDetectionUI *Widget= Cast<USightDetectionUI>(DetectionWidget->GetUserWidgetObject());
 	if(Widget)
 	{
 		Widget->SetOwner(this);
@@ -67,7 +67,6 @@ void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 		if (Stimulus.WasSuccessfullySensed())
 		{
 			AIController->UpdateHasLineOfSightKey(true);
-			AIController->UpdateTargetActorKey(Actor);
 			PerceivedActor = Actor;
 			AIController->UpdateLastSeenActorPosition(Actor->GetActorLocation());
 		}
@@ -125,6 +124,16 @@ AActor* AEnemyCharacter::GetPerceivedActor()
 
 void AEnemyCharacter::SeenPlayer()
 {
+
+	if(PerceivedActor)
+	{
+		AIController->UpdateHasLineOfSightKey(true);
+		AIController->UpdateTargetActorKey(PerceivedActor);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Perceived actor is null"))
+	}
 }
 
 void AEnemyCharacter::LostPlayer()

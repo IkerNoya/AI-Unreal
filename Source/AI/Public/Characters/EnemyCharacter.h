@@ -46,7 +46,6 @@ private:
 	bool bIsActorPerceived=false;
 	bool bIsTargetDetected = false;
 	bool bIsTargetInLineOfSight = false;
-
 	float DetectionRate = 0.f;
 public:
 	UPROPERTY(BlueprintAssignable, Category = "AI")

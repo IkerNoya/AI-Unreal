@@ -8,9 +8,6 @@
 #include "Components/ProgressBar.h"
 #include "SightDetectionUI.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class AI_API USightDetectionUI : public UUserWidget
 {
@@ -28,6 +25,8 @@ protected:
 private:
 	UPROPERTY()
 	AEnemyCharacter* Enemy;
+
+	bool bPlayedAnimation = false;
 	
 public:
 	UPROPERTY(meta = (BindWidget))
@@ -40,6 +39,8 @@ protected:
 	void SightRegistered(bool WasSeen, float DetectionSpeed);
 	void GiveUp();
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Animation")
+	void ActivateDetectionAnimation();
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "UI")

@@ -20,7 +20,7 @@ void USightDetectionUI::NativeConstruct()
 
 void USightDetectionUI::EvaluateSightDetection()
 {
-	if(DetectionValue<= 0 && !HasSeenSomething)
+	if(DetectionValue<= 0.05f)
 	{
 		GiveUp();
 		if(Enemy)
@@ -30,16 +30,21 @@ void USightDetectionUI::EvaluateSightDetection()
 	}
 	else
 	{
-		if(DetectionValue >= 1.f && Enemy)
+		if(DetectionValue >= .8f && Enemy)
 		{
 			Enemy->SeenPlayer();
+			if(!bPlayedAnimation)
+			{
+				ActivateDetectionAnimation();
+				bPlayedAnimation=true;
+			}
 		}
+
 	}
 }
 
 void USightDetectionUI::SightRegistered(bool WasSeen, float DetectionSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Entro en delegate"));
 	DetectSpeed = DetectionSpeed;
 	HasSeenSomething = WasSeen;
 	if(SightProgress)
@@ -51,10 +56,11 @@ void USightDetectionUI::SightRegistered(bool WasSeen, float DetectionSpeed)
 
 void USightDetectionUI::GiveUp()
 {
-	if(SightProgress)
-	{
-		SightProgress->SetVisibility(ESlateVisibility::Hidden);
-	}
+	bPlayedAnimation=false;
+	// if(SightProgress)
+	// {
+	// 	SightProgress->SetVisibility(ESlateVisibility::Hidden);
+	// }
 }
 
 void USightDetectionUI::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
