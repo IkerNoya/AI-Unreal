@@ -50,14 +50,14 @@ void AEnemyCharacter::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 		bIsActorPerceived = Stimulus.WasSuccessfullySensed();
 		if (Stimulus.WasSuccessfullySensed())
 		{
-			GetWorld()->GetTimerManager().ClearTimer(TargetLostHandle);
 			AIController->UpdateHasLineOfSightKey(true);
 			AIController->UpdateTargetActorKey(PerceivedActor);
+			AIController->UpdateLastSeenActorPosition(Actor->GetActorLocation());
 		}
 		else
 		{
-			GetWorld()->GetTimerManager().SetTimer(TargetLostHandle, this, &AEnemyCharacter::TargetLost, LineOfSightTimer, false);
 			AIController->UpdateLastSeenActorPosition(Actor->GetActorLocation());
+			AIController->UpdateHasLineOfSightKey(false);
 		}
 	}
 }
