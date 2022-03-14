@@ -27,6 +27,8 @@ protected:
 	FName HasLineOfSightName = "HasLineOfSight";
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FName TargetLocationName = "TargetLocation";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName DetectedLoSName = "DetectedLineOfSight";
 
 	virtual void OnPossess(APawn* InPawn) override;
 public:
@@ -36,4 +38,6 @@ public:
 	void UpdateHasLineOfSightKey(bool HasLineOfSight);
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	void UpdateLastSeenActorPosition(FVector Position);
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void UpdateDetectedLineOfSight(bool Value);
 };

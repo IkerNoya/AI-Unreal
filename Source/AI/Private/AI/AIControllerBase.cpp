@@ -25,3 +25,8 @@ void AAIControllerBase::UpdateLastSeenActorPosition(FVector Position)
 {
 	Blackboard->SetValueAsVector(TargetLocationName, Position);
 }
+
+void AAIControllerBase::UpdateDetectedLineOfSight(bool Value)
+{
+	Blackboard->SetValueAsBool(TargetLocationName, Value);
+}
