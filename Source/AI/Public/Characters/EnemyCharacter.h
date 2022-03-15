@@ -10,7 +10,6 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "EnemyCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSightRegistered, bool, bWasSeen, float, DetectionSpeed);
 UCLASS()
 class AI_API AEnemyCharacter : public ACharacter
 {
@@ -22,10 +21,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UWidgetComponent* DetectionWidget;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	UPROPERTY(VisibleAnywhere, Category = "Settings")
 	UAISenseConfig_Sight* SightConfig;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	UCurveFloat* SightCurve;
+	UPROPERTY(VisibleAnywhere, Category = "Settings")
+	UAISenseConfig_Sight* SightConfig;
+	UPROPERTY(VisibleAnywhere, Category = "Settings")
+	UAISenseConfig_Sight* SightConfig;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float MovementSpeed;
@@ -43,13 +45,12 @@ private:
 	FTimerHandle TargetLostHandle;
 	UPROPERTY()
 	class AAIControllerBase* AIController = nullptr;
+	UPROPERTY()
+	class USightDetectionUI* SightWidget;
 	bool bIsActorPerceived=false;
 	bool bIsTargetDetected = false;
-	bool bIsTargetInLineOfSight = false;
 	float DetectionRate = 0.f;
 public:
-	UPROPERTY(BlueprintAssignable, Category = "AI")
-	FSightRegistered SightRegistered;
 	// Sets default values for this character's properties
 	AEnemyCharacter();
 
@@ -77,17 +78,12 @@ public:
 	AActor* GetPerceivedActor();
 	UFUNCTION(BlueprintCallable, Category  = "AI")
 	void SeenPlayer();
-	UFUNCTION(BlueprintCallable, Category  = "AI")
-	void LostPlayer();
 	
 	UFUNCTION(BlueprintCallable, Category = "AI")
-	FORCEINLINE float GetDetectionRate() const
-	{
-		return DetectionRate;
-	}
+	FORCEINLINE float GetDetectionRate() const {return DetectionRate;}
+	
 	UFUNCTION(BlueprintCallable, Category = "AI")
-	FORCEINLINE UCurveFloat * GetSightCurve() const
-	{
-		return SightCurve;
-	}
+	FORCEINLINE UCurveFloat * GetSightCurve() const{return SightCurve;}
+private:
+	void EvaluateDetection();
 };

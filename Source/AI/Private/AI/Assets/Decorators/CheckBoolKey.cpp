@@ -9,8 +9,8 @@ bool UCheckBoolKey::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp
 {
 	bool bSuccess = Super::CalculateRawConditionValue(OwnerComp, NodeMemory);
 	if(!bSuccess) return false;
-
 	bool Result = OwnerComp.GetBlackboardComponent()->GetValueAsBool(GetSelectedBlackboardKey());
+
 	if(Result)
 	{
 		return true;
