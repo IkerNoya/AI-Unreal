@@ -23,10 +23,20 @@ void AAIControllerBase::UpdateHasLineOfSightKey(bool HasLineOfSight)
 
 void AAIControllerBase::UpdateLastSeenActorPosition(FVector Position)
 {
-	Blackboard->SetValueAsVector(TargetLocationName, Position);
+	Blackboard->SetValueAsVector(LastSeenPositionName, Position);
 }
 
 void AAIControllerBase::UpdateDetectedLineOfSight(bool Value)
 {
-	Blackboard->SetValueAsBool(TargetLocationName, Value);
+	Blackboard->SetValueAsBool(DetectedLoSName, Value);
+}
+
+void AAIControllerBase::UpdateTargetLocation(FVector TargetLocation)
+{
+	Blackboard->SetValueAsVector(TargetLocationName, TargetLocation);
+}
+
+void AAIControllerBase::UpdatePatrolLocation(FVector PatrolLocation)
+{
+		Blackboard->SetValueAsVector(PatrolLocationName, PatrolLocation);
 }

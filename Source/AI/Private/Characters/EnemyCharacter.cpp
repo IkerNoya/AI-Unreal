@@ -22,6 +22,7 @@ AEnemyCharacter::AEnemyCharacter()
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
 	DetectionWidget = CreateDefaultSubobject<UWidgetComponent>("Detection Widget");
 	DetectionWidget->SetupAttachment(GetMesh());
+	PatrolRoute = CreateDefaultSubobject<USplineComponent>(TEXT("Patrol Route"));
 
 	AIPerception->bEditableWhenInherited = true;
 	SightConfig->SightRadius = 1000.f;
@@ -32,6 +33,7 @@ AEnemyCharacter::AEnemyCharacter()
 	SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
 	AIPerception->ConfigureSense(*SightConfig);
 	AIPerception->SetDominantSense(SightConfig->GetSenseImplementation());
+	PatrolRoute->SetClosedLoop(true);
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +42,10 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 	AIController = Cast<AAIControllerBase>(GetController());
 	SightWidget = Cast<USightDetectionUI>(DetectionWidget->GetUserWidgetObject());
+	if(PatrolRoute)
+	{
+		PatrolRoute->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld,EDetachmentRule::KeepWorld,EDetachmentRule::KeepWorld, false));
+	}
 	if (SightWidget)
 	{
 		SightWidget->SetOwner(this);
@@ -93,6 +99,7 @@ void AEnemyCharacter::TargetLost()
 	PerceivedActor = nullptr;
 	DetectionRate = 0.f;
 	bIsTargetDetected = false;
+	UE_LOG(LogTemp, Warning, TEXT("LostTarget"));
 }
 
 
@@ -143,6 +150,20 @@ void AEnemyCharacter::SeenPlayer()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Perceived actor is null"))
 	}
+}
+
+void AEnemyCharacter::SetNextPatrolLocation()
+{
+	if(AIController && PatrolRoute)
+	{
+		PatrolPointsDistance += PatrolSpeed;
+		if(!(PatrolPointsDistance < PatrolRoute->GetSplineLength()))
+		{
+			PatrolPointsDistance -= PatrolRoute->GetSplineLength();
+		}
+		TargetLocation = PatrolRoute->GetLocationAtDistanceAlongSpline(PatrolPointsDistance, ESplineCoordinateSpace::Type::World);
+		AIController->UpdatePatrolLocation(TargetLocation);
+	}	
 }
 
 void AEnemyCharacter::EvaluateDetection()

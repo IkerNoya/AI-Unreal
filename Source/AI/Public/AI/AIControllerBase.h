@@ -4,10 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Camera/CameraComponent.h"
-#include "Components/ArrowComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "AIControllerBase.generated.h"
 
 /**
@@ -29,6 +25,10 @@ protected:
 	FName TargetLocationName = "TargetLocation";
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FName DetectedLoSName = "DetectedLineOfSight";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName LastSeenPositionName = "LastSeenPosition";
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName PatrolLocationName = "PatrolLocation";
 
 	virtual void OnPossess(APawn* InPawn) override;
 public:
@@ -40,4 +40,8 @@ public:
 	void UpdateLastSeenActorPosition(FVector Position);
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	void UpdateDetectedLineOfSight(bool Value);
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void UpdateTargetLocation(FVector TargetLocation);
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void UpdatePatrolLocation(FVector PatrolLocation);
 };

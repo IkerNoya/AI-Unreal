@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SplineComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionComponent.h"
@@ -20,11 +21,9 @@ protected:
 	UAIPerceptionComponent* AIPerception;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UWidgetComponent* DetectionWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	USplineComponent* PatrolRoute;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Settings")
-	UAISenseConfig_Sight* SightConfig;
-	UPROPERTY(VisibleAnywhere, Category = "Settings")
-	UAISenseConfig_Sight* SightConfig;
 	UPROPERTY(VisibleAnywhere, Category = "Settings")
 	UAISenseConfig_Sight* SightConfig;
 
@@ -37,6 +36,14 @@ protected:
 	float TimeToDetectPlayer = 2.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float DetectionTimeSpeed = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float PatrolPointsDistance;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	FVector TargetLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float  PatrolSpeed  = 125.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	FTimerHandle PatrolHandle;
 	
 private:
 	UPROPERTY()
@@ -78,12 +85,12 @@ public:
 	AActor* GetPerceivedActor();
 	UFUNCTION(BlueprintCallable, Category  = "AI")
 	void SeenPlayer();
+	UFUNCTION(BlueprintCallable, Category  = "AI")
+	void SetNextPatrolLocation();
 	
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	FORCEINLINE float GetDetectionRate() const {return DetectionRate;}
-	
-	UFUNCTION(BlueprintCallable, Category = "AI")
-	FORCEINLINE UCurveFloat * GetSightCurve() const{return SightCurve;}
+
 private:
 	void EvaluateDetection();
 };
