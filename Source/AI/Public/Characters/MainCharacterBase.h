@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/CameraInterface.h"
+#include "Interfaces/CharacterInterface.h"
 #include "MainCharacterBase.generated.h"
 
 UCLASS()
-class AI_API AMainCharacterBase : public ACharacter
+class AI_API AMainCharacterBase : public ACharacter, public ICharacterInterface, public ICameraInterface
 {
 	GENERATED_BODY()
 

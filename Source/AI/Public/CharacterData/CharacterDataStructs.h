@@ -79,7 +79,7 @@ struct AI_API FLeanAmount
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float LR;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float LB;
+	float FB;
 };
 
 USTRUCT()
@@ -199,7 +199,7 @@ struct AI_API FTurnInPlaceAsset
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* AnimMontage;
+	UAnimSequenceBase* Animation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName SlotName = NAME_None;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

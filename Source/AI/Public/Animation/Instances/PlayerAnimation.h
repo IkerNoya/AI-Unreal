@@ -22,6 +22,10 @@ protected:
 	ACharacter* Character = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
 	float DeltaTimeX = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
+	UAnimSequenceBase* RightTransition;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "References")
+	UAnimSequenceBase* LeftTransition;
 #pragma endregion References
 
 #pragma region CharacterInfo
@@ -399,13 +403,13 @@ public:
 	FLeanAmount CalculateInAirLeanAmount();
 
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
-	void SetFootOffsets(FName Enable_FootIK_Curve,  FName IKFootBone, FName RootBone, FVector CurrentLocationTarget, FVector CurrentLocationOffset, FRotator CurrentRotationOffset);
+	void SetFootOffsets(FName Enable_FootIK_Curve,  FName IKFootBone, FName RootBone, FVector& CurrentLocationTarget, FVector& CurrentLocationOffset, FRotator& CurrentRotationOffset);
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
 	void SetPelvisIKOffset(FVector FootOffset_L_Target, FVector FootOffset_R_Target);
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
-	void SetFootLocking(FName Enable_FootIK_Curve, FName FootLockCurve, FName IKFootBone, float CurrentFootLockAlpha, FVector CurrentFootLockVector, FRotator CurrentFootLocKRotation);
+	void SetFootLocking(FName Enable_FootIK_Curve, FName FootLockCurve, FName IKFootBone, float& CurrentFootLockAlpha, FVector &CurrentFootLockVector, FRotator& CurrentFootLocKRotation);
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
-	void SetFootLockOffsets(FVector LocalLocation, FRotator LocalRotation);
+	void SetFootLockOffsets(FVector &LocalLocation, FRotator& LocalRotation);
 	
 	UFUNCTION(BlueprintCallable, Category = "Rotation")
 	EMovementDirection CalculateMovementDirection();
