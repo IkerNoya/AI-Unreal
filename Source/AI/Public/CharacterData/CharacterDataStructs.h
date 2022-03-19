@@ -6,7 +6,7 @@
 #include "Curves/CurveVector.h"
 #include "CharacterDataStructs.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FComponentAndTransform
 {
 	GENERATED_BODY()
@@ -16,7 +16,7 @@ struct AI_API FComponentAndTransform
 	UPrimitiveComponent* Component;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FCameraSettings
 {
 	GENERATED_BODY()
@@ -30,7 +30,7 @@ struct AI_API FCameraSettings
 	float RotationLagSpeed;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FCameraSettings_Gait
 {
 	GENERATED_BODY()
@@ -44,7 +44,7 @@ struct AI_API FCameraSettings_Gait
 	FCameraSettings Crouching;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FCameraSettings_State
 {
 	GENERATED_BODY()
@@ -56,7 +56,7 @@ struct AI_API FCameraSettings_State
 	FCameraSettings_Gait Aiming;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FDynamicMontageParams
 {
 	GENERATED_BODY()
@@ -72,7 +72,7 @@ struct AI_API FDynamicMontageParams
 	float StartTime;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FLeanAmount
 {
 	GENERATED_BODY()
@@ -82,7 +82,7 @@ struct AI_API FLeanAmount
 	float FB;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMantleAsset
 {
 	GENERATED_BODY()
@@ -106,7 +106,7 @@ struct AI_API FMantleAsset
 	float HighStartPosition;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMantleParams
 {
 	GENERATED_BODY()
@@ -122,7 +122,7 @@ struct AI_API FMantleParams
 	FVector StartingOffset;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMantleTraceSettings
 {
 	GENERATED_BODY()
@@ -138,7 +138,7 @@ struct AI_API FMantleTraceSettings
 	float DownwardTraceRadius;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMovementSettings
 {
 	GENERATED_BODY()
@@ -154,7 +154,7 @@ struct AI_API FMovementSettings
 	UCurveFloat* RotationRateCurve;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMovementSettings_Stance
 {
 	GENERATED_BODY()
@@ -164,7 +164,7 @@ struct AI_API FMovementSettings_Stance
 	FMovementSettings Crouching;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FMovementSettings_State
 {
 	GENERATED_BODY()
@@ -176,7 +176,7 @@ struct AI_API FMovementSettings_State
 	FMovementSettings_Stance Aiming;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FRotateInPlaceAsset
 {
 	GENERATED_BODY()
@@ -194,7 +194,7 @@ struct AI_API FRotateInPlaceAsset
 	float FastPlayRate = 1.f;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FTurnInPlaceAsset
 {
 	GENERATED_BODY()
@@ -210,7 +210,7 @@ struct AI_API FTurnInPlaceAsset
 	bool bScaleTurnAngle = true;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct AI_API FVelocityBlend
 {
 	GENERATED_BODY()

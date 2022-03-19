@@ -22,4 +22,6 @@ class AI_API IControllerInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual void GetDebugInfo(ACharacter* DebugFocusCharacter, bool& DebugView, bool& ShowHUD, bool& ShowTraces,
+		bool& ShowDebugShapes, bool &ShowLayerColors, bool& SlowMo, bool& ShowCharacterInfo){}
 };

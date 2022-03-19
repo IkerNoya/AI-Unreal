@@ -13,7 +13,7 @@
  * 
  */
 UCLASS()
-class AI_API UPlayerAnimation : public UAnimInstance, IAnimationInterface
+class AI_API UPlayerAnimation : public UAnimInstance, public IAnimationInterface
 {
 	GENERATED_BODY()
 protected:
@@ -331,7 +331,7 @@ protected:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 	virtual void Jumped() override;
 	virtual void SetGroundedEntryState(EGroundedEntryState NewGroundedEntryState) override;
-	virtual void SetOverlayOverrideState(EMovementType OverlayOverrideState) override;
+	virtual void SetOverlayOverrideState(EMovementType NewOverlayOverrideState) override;
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetGroundValues(bool ValueToEvaluate);
 	UFUNCTION(BlueprintCallable)
@@ -407,7 +407,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
 	void SetPelvisIKOffset(FVector FootOffset_L_Target, FVector FootOffset_R_Target);
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
-	void SetFootLocking(FName Enable_FootIK_Curve, FName FootLockCurve, FName IKFootBone, float& CurrentFootLockAlpha, FVector &CurrentFootLockVector, FRotator& CurrentFootLocKRotation);
+	void SetFootLocking(FName Enable_FootIK_Curve, FName FootLockCurve, FName IKFootBone, float& CurrentFootLockAlpha, FVector &CurrentFootLockLocation, FRotator& CurrentFootLockRotation);
 	UFUNCTION(BlueprintCallable, Category = "Foot IK")
 	void SetFootLockOffsets(FVector &LocalLocation, FRotator& LocalRotation);
 	
@@ -430,5 +430,7 @@ public:
 	void ResetIKOffsets();
 #pragma endregion Functions
 
+private:
+	float GetAnimCurveClamped(FName Name, float Bias, float ClampMin, float ClampMax);
 
 };

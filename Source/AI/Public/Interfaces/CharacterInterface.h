@@ -26,12 +26,12 @@ public:
 	virtual void GetCurrentStates(EMovementMode& PawnMovementMode, EMovementState& MovementState,
 	                              EMovementState& PrevMovementState, EMovementAction& MovementAction,
 	                              ERotationMode& RotationMode, EGait& ActualGait, EStance& ActualStance,
-	                              EViewMode& ViewMode, EMovementType& OverlayState);
-	virtual void GetEssentialValues(FVector& Velocity, FVector& Acceleration, FVector& MovementInput, bool& IsMoving, bool& HasMovementInput, float& Speed, float& MovementInputAmount, FRotator& AimingRotation, float& AimYawRate);
-	virtual void SetMovementState(EMovementState NewMovementState);
-	virtual void SetMovementAction(EMovementAction NewMovementAction);
-	virtual void SetRotationMode(ERotationMode NewRotationMode);
-	virtual void SetGait(EGait NewGait);
-	virtual void SetViewMode(EViewMode NewViewMode);
-	virtual void SetMovementType(EMovementType NewMovementType);
+	                              EViewMode& ViewMode, EMovementType& OverlayState){}
+	virtual void GetEssentialValues(FVector& Velocity, FVector& Acceleration, FVector& MovementInput, bool& IsMoving, bool& HasMovementInput, float& Speed, float& MovementInputAmount, FRotator& AimingRotation, float& AimYawRate){}
+	virtual void SetMovementState(EMovementState NewMovementState){}
+	virtual void SetMovementAction(EMovementAction NewMovementAction){}
+	virtual void SetRotationMode(ERotationMode NewRotationMode){}
+	virtual void SetGait(EGait NewGait){}
+	virtual void SetViewMode(EViewMode NewViewMode){}
+	virtual void SetMovementType(EMovementType NewMovementType){}
 };

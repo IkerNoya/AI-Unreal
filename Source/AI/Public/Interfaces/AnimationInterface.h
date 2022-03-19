@@ -23,7 +23,7 @@ class AI_API IAnimationInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void Jumped();
-	virtual void SetGroundedEntryState(EGroundedEntryState GroundedEntryState);
-	virtual void SetOverlayOverrideState(EMovementType OverlayOverrideState);
+	virtual void Jumped(){}
+	virtual void SetGroundedEntryState(EGroundedEntryState GroundedEntryState){}
+	virtual void SetOverlayOverrideState(EMovementType OverlayOverrideState){}
 };
