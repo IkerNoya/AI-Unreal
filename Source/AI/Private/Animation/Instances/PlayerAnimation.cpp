@@ -614,7 +614,7 @@ float UPlayerAnimation::CalculateLandPrediction()
 	float Radius = Character->GetCapsuleComponent()->GetUnscaledCapsuleRadius();
 	float HalfHeight = Character->GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight();
 	FHitResult Hit;
-	bool bTraceResult = GetWorld()->SweepSingleByProfile(Hit, Start, End, FQuat::Identity, FName("ALS_Character"),
+	bool bTraceResult = GetWorld()->SweepSingleByProfile(Hit, Start, End, FQuat::Identity, FName("Character"),
 	                                                     FCollisionShape::MakeCapsule(Radius, HalfHeight));
 	bool bIsWalkable = Character->GetCharacterMovement()->IsWalkable(Hit);
 	bool bIsHitBlocked = Hit.bBlockingHit;
